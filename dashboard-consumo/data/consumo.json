@@ -1,0 +1,21 @@
+{
+  "source": "data/consumo.json",
+  "lastUpdated": "2026-04-12T21:24:00.000Z",
+  "periodDays": 7,
+  "totalBudget": 100000,
+  "consumed": 64250,
+  "reserved": 4500,
+  "thresholds": {
+    "warning": 0.7,
+    "danger": 0.9
+  },
+  "daily": [
+    { "label": "Seg", "value": 7200 },
+    { "label": "Ter", "value": 8400 },
+    { "label": "Qua", "value": 10900 },
+    { "label": "Qui", "value": 8700 },
+    { "label": "Sex", "value": 11300 },
+    { "label": "Sáb", "value": 5900 },
+    { "label": "Dom", "value": 1850 }
+  ]
+}
