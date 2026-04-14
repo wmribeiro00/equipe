@@ -45,6 +45,7 @@ const demoData = {
 const state = {
   demo: false,
   polling: null,
+  sourceMeta: null,
 };
 
 const nf = new Intl.NumberFormat('pt-BR');
@@ -136,16 +137,34 @@ function buildAlerts(data, percentUsed, daily, weekly) {
   return alerts;
 }
 
-function renderBars(data) {
+function buildWeeklyTrend(data) {
   const max = Math.max(...data.daily.map((d) => d.value), 1);
-  els.dailyChart.innerHTML = data.daily
+  const trend = data.daily.map((item, index) => {
+    const prev = data.daily[index - 1]?.value ?? item.value;
+    const delta = prev ? ((item.value - prev) / prev) * 100 : 0;
+    return {
+      ...item,
+      max,
+      delta,
+      share: item.value / max,
+    };
+  });
+
+  return trend;
+}
+
+function renderBars(data) {
+  const trend = buildWeeklyTrend(data);
+  els.dailyChart.innerHTML = trend
     .map((item) => {
-      const height = Math.max((item.value / max) * 100, 10);
+      const height = Math.max(item.share * 100, 10);
+      const deltaClass = item.delta > 0 ? 'up' : item.delta < 0 ? 'down' : 'flat';
       return `
         <div class="bar-wrap">
           <div class="bar daily" style="height:${height}%;"></div>
           <span class="bar-value">${toCurrencyLike(item.value)}</span>
           <span class="bar-label">${item.label}</span>
+          <span class="bar-delta ${deltaClass}">${item.delta > 0 ? '+' : ''}${item.delta.toFixed(1)}%</span>
         </div>
       `;
     })
@@ -175,15 +194,12 @@ function render(data) {
   const alerts = buildAlerts(data, percentUsed, today, weeklyTotal);
 
   const arc = Math.min(percentUsed, 1) * 360;
-  document.documentElement.style.setProperty(
-    '--budget-gradient',
-    `conic-gradient(var(--accent) ${arc}deg, rgba(255,255,255,0.08) ${arc}deg)`,
-  );
   const ring = document.querySelector('.budget-ring');
   if (ring) ring.style.background = `conic-gradient(var(--accent) ${arc}deg, rgba(255,255,255,0.08) ${arc}deg)`;
 
+  const freshness = data.lastUpdated ? new Date(data.lastUpdated).toLocaleString('pt-BR') : '—';
   els.statusPill.textContent = data.source === 'demo-visual' ? 'Modo demo visual' : 'Atualização ativa';
-  els.updatedAt.textContent = `Última atualização: ${new Date(data.lastUpdated).toLocaleString('pt-BR')}`;
+  els.updatedAt.textContent = `Última atualização: ${freshness}`;
 
   els.totalConsumido.textContent = `${toCurrencyLike(totalUsed)}`;
   els.totalConsumidoMeta.textContent = `${toCurrencyLike(data.consumed)} consumidos + ${toCurrencyLike(data.reserved || 0)} reservados`;
@@ -220,6 +236,7 @@ async function loadData() {
       const response = await fetch(endpoint, { headers: { Accept: 'application/json' } });
       if (!response.ok) throw new Error(`API respondeu ${response.status}`);
       const json = await response.json();
+      state.sourceMeta = json;
       render(mergeData(json));
       return;
     }

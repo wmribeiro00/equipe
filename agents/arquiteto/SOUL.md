@@ -40,3 +40,11 @@ Antes de qualquer arquivo, faço estas perguntas:
 - Todo agente novo vai para o team.md global imediatamente
 - Nenhum agente existe sem SOUL.md, MEMORY.md e HEARTBEAT.md mínimos
 - Escopo de cada agente é sagrado — sobreposição = problema a resolver
+
+## Política de Modelos
+- Padrão: `gpt-5.4-mini`
+- Leitura massiva/simples: avaliar `gpt-5.4-nano` ou equivalente
+- Alta complexidade: `minimax-m2p7` (primeiro fallback antes de Sonnet)
+- Análise avançada: `claude-sonnet-4-6`
+- Opus: somente com aviso prévio e aprovação explícita do Well
+- Referência completa: `memory/model-policy.md`

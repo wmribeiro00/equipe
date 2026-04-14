@@ -1,5 +1,5 @@
 # Política de Uso de Modelos — Operação Well
-> Versão 1.0 · Criado em 2026-04-12 · Mantido por Morpheus 🧭
+> Versão 1.3 · Criado em 2026-04-12 · Atualizado em 2026-04-14 · Mantido por Morpheus 🧭
 > Aplicável a todos os agentes da operação. Cole na seção `## Política de Modelos` do SOUL.md de cada agente ao instanciar em novo servidor.
 
 ---
@@ -18,7 +18,7 @@ Custo não é detalhe — é critério de decisão. Subir de tier sem motivo é 
 |------|---------|-------------|
 | **Nano** (mais barato) | `gpt-5.4-nano` · `gemini-3.1-flash-lite-preview` · `minimax-m2p5` | Leitura massiva, extração simples, classificação, sumarização rápida, tarefas de pipeline sem raciocínio profundo |
 | **Mini** (padrão) | `gpt-5.4-mini` | Padrão de toda a operação. Conversas, geração de código simples, análises rotineiras, cron jobs, memória diária |
-| **Sonnet** (intermediário) | `claude-sonnet-4-6` | Análise complexa, bugs difíceis, raciocínio estruturado, documentação técnica detalhada, imagem+código combinados |
+| **Sonnet** (avançado) | `claude-sonnet-4-6` | Alta complexidade, bugs difíceis, raciocínio estruturado, documentação técnica detalhada, imagem+código combinados |
 | **Opus** (máximo) | qualquer modelo Opus | Somente com **aviso prévio e aprovação do Well**. Casos excepcionais de raciocínio profundo sem substituto |
 
 ---
@@ -26,11 +26,12 @@ Custo não é detalhe — é critério de decisão. Subir de tier sem motivo é 
 ## 3. Política por Agente
 
 | Agente | Modelo padrão | Quando subir para Sonnet | Opus permitido? |
-|--------|---------------|--------------------------|-----------------|
-| 🧭 **Morpheus** | `gpt-5.4-mini` | Análise estratégica profunda, imagem crítica, decisão com múltiplas variáveis | Só com aviso ao Well |
-| 🏗️ **Arquiteto** | `gpt-5.4-mini` | Documentação de estrutura complexa, design de sistema com múltiplas dependências | Só com aviso ao Well |
-| 🤖 **Stark** | `gpt-5.4-mini` | Bugs difíceis, análise de imagem+código, código intrincado com raciocínio encadeado | Só com aviso ao Well |
-| 👻 **Ghost** | `gpt-5.4-mini` | Auditoria de risco com correlação técnica complexa, análise de código vulnerável | Só com aviso ao Well |
+|--------|---------------|-------------------------|-----------------|
+| 🧭 **Morpheus** | `gpt-5.4-mini` | Análise estratégica complexa, decisão com múltiplas variáveis, orquestração de agentes | Só com aviso ao Well |
+| 🏗️ **Arquiteto** | `gpt-5.4-mini` | Design de sistema multi-agente, documentação complexa | Só com aviso ao Well |
+| 🤖 **Stark** | `gpt-5.4-mini` | Bugs difíceis, lógica complexa, código agentic | Só com aviso ao Well |
+| 👻 **Ghost** | `gpt-5.4-mini` | Auditoria de risco com correlação técnica complexa, análise de vulnerabilidades | Só com aviso ao Well |
+| 🔮 **Wanda** | `gpt-5.4-mini` | Redesign de jornada complexa, diagnóstico UX crítico | Só com aviso ao Well |
 | _(futuros agentes)_ | `gpt-5.4-mini` | Definir no SOUL.md no momento da criação | Só com aviso ao Well |
 
 ---
@@ -51,14 +52,15 @@ Antes de usar `gpt-5.4-mini` em tarefas de leitura, extração ou sumarização 
 ### 4.3 Regra do Sonnet
 Subir para `claude-sonnet-4-6` quando:
 - Mini falhou ou produziu resultado insatisfatório
-- A tarefa tem múltiplas variáveis interdependentes
+- A tarefa exige raciocínio codificado específico (bug hunting, segurança)
 - Análise de imagem + código combinados
 - Auditoria técnica com correlação profunda
+- Documentação técnica complexa que demande precisão
 
 ### 4.4 Regra do Opus
 **Opus nunca é usado por decisão autônoma do agente.**
 - O agente deve pausar, informar o Well e aguardar aprovação explícita.
-- Formato da notificação: "Preciso de Opus para [tarefa]. Motivo: [justificativa]. Estimativa de custo: [se conhecida]. Aguardo aprovação."
+- Formato da notificação: `Preciso de Opus para [tarefa]. Motivo: [justificativa]. Estimativa de custo: [se conhecida]. Aguardo aprovação.`
 
 ### 4.5 Regra dos Cron Jobs
 - Todos os cron jobs usam `gpt-5.4-mini` por padrão.
@@ -67,16 +69,26 @@ Subir para `claude-sonnet-4-6` quando:
 
 ---
 
-## 5. Como aplicar em novo servidor
+## 5. Comparativo Rápido de Custos
+
+| Modelo | Input ($/1M) | Output ($/1M) | Context | Ranking |
+|--------|-------------|--------------|---------|---------|
+| `minimax-m2p5` | $0.05 | $0.20 | 32K | — |
+| `gemini-3.1-flash-lite-preview` | $0.075 | $0.30 | 32K | — |
+| `gemini-2.0-flash` | $0.10 | $0.40 | 1.05M | média |
+| `gpt-5.4-mini` | $0.15 | $0.60 | 128K | média-alta |
+| `claude-sonnet-4-6` | $3.00 | $15.00 | 1M | altíssimo |
+
+---
+
+## 6. Como aplicar em novo servidor
 
 ### Passo 1 — Cole no SOUL.md do agente
-Adicione a seção abaixo no final do SOUL.md de cada agente:
-
 ```markdown
 ## Política de Modelos
 - Padrão: `gpt-5.4-mini`
 - Leitura massiva/simples: avaliar `gpt-5.4-nano` ou equivalente
-- Análise complexa: `claude-sonnet-4-6`
+- Alta complexidade: `claude-sonnet-4-6`
 - Opus: somente com aviso prévio e aprovação explícita do Well
 - Referência completa: `memory/model-policy.md`
 ```
@@ -84,29 +96,28 @@ Adicione a seção abaixo no final do SOUL.md de cada agente:
 ### Passo 2 — Adicione ao HEARTBEAT.md
 ```markdown
 - Sempre que algum agente precisar usar modelo Opus, notificar o Well antes de executar a tarefa.
-- Se a tarefa puder ser resolvida com `gpt-5.4-mini` ou um modelo mais barato compatível, preferir o modelo de menor custo que mantenha a qualidade necessária.
-- Para leitura massiva e tarefas simples, considerar `gpt-5.4-nano`, `gemini-3.1-flash-lite-preview` ou `minimax-m2p5` antes de subir para `gpt-5.4-mini`.
+- Se a tarefa puder ser resolvida com `gpt-5.4-mini` ou um modelo mais barato compatível, preferir o de menor custo que mantenha a qualidade necessária.
+- Para leitura massiva e tarefas simples, considerar `gpt-5.4-nano`, `gemini-3.1-flash-lite-preview` ou `minimax-m2p5`.
 ```
 
 ### Passo 3 — Configure os cron jobs
 Ao criar qualquer cron job, usar explicitamente:
 ```json
-"model": "gpt-5.4-mini"
+model: gpt-5.4-mini
 ```
 
 ### Passo 4 — Treine o agente no onboarding
 No primeiro turno de cada novo agente, inclua no briefing:
 ```
 Sua política de modelos está em memory/model-policy.md.
-Resumo: padrão é gpt-5.4-mini. Só suba de tier com justificativa.
-Opus exige aprovação explícita do Well antes de qualquer uso.
+Resumo: padrão é gpt-5.4-mini. Alta complexidade → Sonnet. Opus exige aprovação explícita do Well.
 ```
 
 ---
 
-## 6. Critério de qualidade aceitável
+## 7. Critério de qualidade aceitável
 
-Um modelo é "suficiente" para uma tarefa quando:
+Um modelo é &quot;suficiente&quot; para uma tarefa quando:
 - O resultado é correto e utilizável sem revisão profunda
 - Não houve omissão relevante de contexto
 - O raciocínio encadeado é coerente até o fim
@@ -115,7 +126,7 @@ Se qualquer um desses critérios falhar, subir um tier e refazer.
 
 ---
 
-## 7. Histórico de decisões
+## 8. Histórico de decisões
 
 | Data | Decisão |
 |------|---------|
@@ -123,3 +134,5 @@ Se qualquer um desses critérios falhar, subir um tier e refazer.
 | 2026-04-12 | Cron jobs de memória migrados para `gpt-5.4-mini` |
 | 2026-04-12 | Regra do Opus documentada: aviso prévio ao Well obrigatório |
 | 2026-04-12 | Nano tier adicionado para leitura massiva e tarefas simples |
+| 2026-04-14 | M2.7 adicionado como tier Intermediário (revertido em 2026-04-14 — causando instabilidade) |
+| 2026-04-14 | **M2.7 removido da política — hierarquia volta a ser: Nano → Mini → Sonnet → Opus** |

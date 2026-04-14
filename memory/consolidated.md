@@ -11,7 +11,7 @@
 | Projeto | Status | Responsável | Próximo passo |
 |---------|--------|-------------|---------------|
 | Medic Bot | Prontuário consolidado + impressão clínica em produção | Stark | CI/CD + bugs P3 + estratégia de cliente |
-| Equipe de Agentes | 3 agentes ativos (Morpheus, Arquiteto, Stark) | Arquiteto + Morpheus | Criar Agente de Inteligência e Métricas |
+| Equipe de Agentes | 5 agentes ativos (Morpheus, Arquiteto, Stark, Ghost, Wanda) | Arquiteto + Morpheus | Criar Agente de Inteligência e Métricas |
 
 ## Time Ativo
 | Emoji | Nome | Papel | Status |
@@ -20,6 +20,7 @@
 | 🏗️ | Arquiteto | Criador de Agentes | ✅ Ativo |
 | 🤖 | Stark | Desenvolvimento (todos os projetos) | ✅ Ativo |
 | 👻 | Ghost | Cybersegurança / Auditoria Defensiva | ✅ Ativo |
+| 🔮 | Wanda | UX/UI e Experiência do Usuário | ✅ Ativo |
 
 ## Ghost — Papel na Estrutura
 - Auditoria defensiva de código, infra e integrações
@@ -28,12 +29,19 @@
 - Checklist operacional inicial: conexões/transport, Supabase, auth/sessions, webhooks, env vars, infra/deploy, dependências
 - Política de modelos: `gpt-5.4-mini` padrão; `claude-sonnet-4-6` para análise complexa; Opus só com aviso ao Well
 
+## Wanda — Papel na Estrutura
+- Especialista em UX/UI e experiência do usuário de todos os projetos da operação
+- Análise de jornada, auditoria UX, design de interfaces, heurísticas de usabilidade, specs para dev
+- Atua como os olhos do usuário: avalia do ponto de vista de quem nunca viu o sistema antes
+- Fronteira clara com Stark: Wanda desenha, Stark implementa
+- Política de modelos: `gpt-5.4-mini` padrão; `claude-sonnet-4-6` para análise visual/screenshots; Opus só com aviso ao Well
+
 ## Decisões Importantes da Operação
 | Data | Decisão |
 |------|---------|
 | 2026-04-11 | Estrutura de agentes definida: 4 níveis (Observador → Autônomo) |
 | 2026-04-11 | Memória em 4 camadas adotada como padrão da equipe |
-| 2026-04-11 | Provider MiniMax M2.7 configurado (endpoint: api.minimaxi.chat) |
+| 2026-04-11 | Provider MiniMax M2.7 configurado (endpoint: api.minimaxi.chat) — REMOVIDO em 2026-04-14 por instabilidade |
 | 2026-04-11 | Todos os agentes instanciados apenas com aprovação do Well |
 | 2026-04-12 | Stark criado como agente de dev de TODA a operação (não só Medic Bot) |
 | 2026-04-12 | Ghost criado como especialista sênior de cybersegurança |
@@ -42,6 +50,11 @@
 | 2026-04-12 | PR #2 mergeado — prontuário consolidado + impressão clínica em produção |
 | 2026-04-12 | Política de custo definida: padrão `gpt-5.4-mini`; Opus exige aviso ao Well |
 | 2026-04-12 | Markers de conflito de merge devem ser verificados antes de qualquer push |
+| 2026-04-13 | PR #3 mergeado — security headers + HSTS ativos em produção no Medic Bot |
+| 2026-04-13 | Traefik no VPS usa flags de linha de comando (não traefik.yml) — redirect HTTPS já estava ativo |
+| 2026-04-13 | PAT GitHub expirou — renovado com escopos repo + read:org |
+| 2026-04-13 | git remote no VPS precisou ser atualizado com o novo PAT para git pull funcionar |
+| 2026-04-13 | Wanda criada como especialista em UX/UI da operação — analisa, propõe e valida com aprovação humana |
 
 ## Lições Aprendidas
 | Data | Lição |

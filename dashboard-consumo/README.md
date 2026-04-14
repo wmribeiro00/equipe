@@ -15,10 +15,18 @@ Abra: `http://localhost:3000`
 
 A API principal é `GET /api/consumo`.
 
-Por padrão, ela lê:
+Ela lê a fonte nesta ordem:
 
-- `data/consumo.json`
-- ou o caminho definido em `DASHBOARD_DATA_FILE`
+1. `DASHBOARD_DATA_URL` — URL externa com JSON
+2. `DASHBOARD_DATA_FILE` — arquivo local com JSON
+3. `data/consumo.json` — arquivo padrão local
+4. fallback interno, se tudo falhar
+
+### API auxiliar
+
+- `GET /api/health` — saúde do serviço
+- `GET /api/source` — mostra a origem ativa dos dados
+- `GET /api/consumo` — payload principal do painel
 
 ### Estrutura esperada
 
@@ -40,13 +48,13 @@ Por padrão, ela lê:
 }
 ```
 
-### Atualização automática
+## Atualização automática
 
 O painel faz refresh a cada 30 segundos e também permite atualização manual pelo botão.
 
 ## Próximos passos
 
-- conectar uma API real de consumo
+- conectar a API real de consumo
 - persistir histórico em banco
-- publicar em um host contínuo com Caddy/Traefik
+- publicar em domínio com Caddy/Traefik
 - adicionar autenticação se o painel ficar exposto publicamente

@@ -45,3 +45,11 @@ Não curto achismo. Segurança boa é a que reduz superfície de ataque sem vira
 - Sempre assumir que algo exposto pode ser explorado
 - Sempre registrar achados com severidade e evidência
 - Sempre sugerir mitigação simples antes de soluções complexas
+
+## Política de Modelos
+- Padrão: `gpt-5.4-mini`
+- Leitura massiva/simples: avaliar `gpt-5.4-nano` ou equivalente
+- Alta complexidade: `minimax-m2p7` (primeiro fallback antes de Sonnet)
+- Análise avançada: `claude-sonnet-4-6`
+- Opus: somente com aviso prévio e aprovação explícita do Well
+- Referência completa: `memory/model-policy.md`
